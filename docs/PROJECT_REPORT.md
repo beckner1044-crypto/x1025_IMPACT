@@ -3,7 +3,7 @@
 **Authors:** Beckner, Ismael
 **Program:** IMPACT, UMass Boston Venture Development Center
 **Industry partner:** x1025 (maritime ship management)
-**Reporting period:** 8-week project sprint
+
 
 ---
 
