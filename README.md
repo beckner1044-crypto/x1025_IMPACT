@@ -3,12 +3,12 @@
 An AI assistant for maritime ship management that answers two distinct kinds
 of question with one chat interface:
 
-1. **Procedural questions** drawn from the vessel's Safety Management System
+1. Procedural questions drawn from the vessel's Safety Management System
    ("what is the procedure for releasing the fixed CO2 system?") via
    retrieval-augmented generation with inline citations to the source ISM
    document and section.
 
-2. **Operational questions** drawn from the company's system of record
+2. Operational questions drawn from the company's system of record
    ("what's the ETA for MV Boreas? Is it meeting charter-party speed?") via
    tool dispatch over a SQLite mock — five deterministic tools, schema-
    validated, no free-form text-to-SQL.
@@ -92,7 +92,6 @@ x1025_prototype/
 │   ├── ADR.md                      13 architecture decision records
 │   ├── PROJECT_REPORT.md           course-style writeup for the professor
 │   ├── HANDOVER.md                 deployment guide for x1025
-│   ├── SPEAKER_NOTES.md            10-minute presentation script
 │   ├── cost_model_report.md        generated cost projections
 │   └── eval_report.md              generated evaluation results
 │
@@ -113,15 +112,15 @@ The original proposal asked for the two-layer architecture, a query router, a
 cost model, and ADRs. Those are all here. On top of that, four production-
 hardening additions came out of the build:
 
-- **Faithfulness verifier** (ADR-010). Decomposes each answer into atomic
+- Faithfulness verifier (ADR-010). Decomposes each answer into atomic
   claims, checks each against retrieved evidence, applies a confidence
   floor. Runtime guard against hallucinated procedures.
-- **Tool-contract validation** (ADR-011). Every Layer 2 tool declares a
+- Tool-contract validation (ADR-011). Every Layer 2 tool declares a
   schema; LLM-emitted args are validated and coerced at the tool boundary.
-- **Audit log + feedback + redaction** (ADR-012). Every answer persisted to
+- Audit log + feedback + redaction (ADR-012). Every answer persisted to
   JSONL with PII scrubbed; thumbs-up/down foreign-keyed to the audit row;
   vessel names redacted via the actual fleet registry, not a brittle regex.
-- **Retrieval-quality metrics** (in `x1025/retrieval_eval.py`). Held-out
+- Retrieval-quality metrics (in `x1025/retrieval_eval.py`). Held-out
   ISM Q/A set with explicit answer-spans drives Recall@K, Precision@K, MRR
   — useful for measuring chunker or retriever changes in isolation.
 
@@ -129,15 +128,8 @@ See `docs/ADR.md` for the full reasoning behind each decision.
 
 ## For different audiences
 
-- **Professor / academic review** → start with `docs/PROJECT_REPORT.md`.
-  Course-style writeup of methodology, decisions, evaluation, and what was
-  learned along the way.
-- **x1025 / industry deployment** → start with `docs/HANDOVER.md`. What's
+- x1025 / industry deployment → start with `docs/HANDOVER.md`. What's
   shipped, how to deploy, what the pilot phase looks like, what's next.
-- **Reviewers who want to read code** → `x1025/chatbot.py` is the entry
+- Reviewers who want to read code → `x1025/chatbot.py` is the entry
   point; everything else is one level down.
-- **Reviewers who want to run the demo** → `make setup demo`.
-
-## License
-
-MIT. See LICENSE.
+- Individuals who want to run the demo → `make setup demo`.
