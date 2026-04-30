@@ -1,0 +1,28 @@
+# Core ML stack
+torch>=2.1
+transformers>=4.38
+sentence-transformers>=2.6
+accelerate>=0.27
+sentencepiece
+safetensors
+tokenizers
+
+# Vector store
+chromadb
+
+# Web UI
+gradio
+
+# HTTP client (for Groq / GitHub Models / Anthropic API calls)
+httpx
+
+# Utilities
+numpy
+scikit-learn
+scipy
+psutil
+regex
+python-dotenv
+
+# Testing (install with: pip install pytest)
+# pytest
