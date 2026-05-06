@@ -1,13 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>x1025</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vessel Dashboard v6 — UMass Boston IMPACT</title>
+  <meta name="description" content="Maritime AI dashboard with fleet switching, open-source dark map, ports JSON, and AI copilot." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <h1>x1025</h1>
-    <script src="js/main.js"></script>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#43d8eb"/><stop offset="100%" stop-color="#1795a5"/></linearGradient></defs><path d="M6 32c6-.5 10-5 14-12 3 7 8 12 16 13 4 1 6 0 8-3-2 8-7 13-13 16-7 3-15 2-20-2-6-4-10-10-11-17 2 3 4 5 6 5Z" fill="url(#bg)"/><path d="M24 7c5 4 8 10 8 17 0 2 0 4-1 6-2-3-5-6-7-8-2 2-5 5-7 8-1-2-1-4-1-6 0-7 3-13 8-17Z" stroke="#43d8eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">UMass Boston · IMPACT Program</p>
+        <h1>Vessel Dashboard v6</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="status-pill" id="connPill" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="connLabel">Signal K simulated</span></div>
+      <button id="themeBtn" class="icon-btn" aria-label="Toggle light or dark theme" title="Toggle theme"><span id="themeIcon" aria-hidden="true">☀</span></button>
+    </div>
+  </header>
+
+  <main id="main" class="layout">
+    <aside class="sidebar panel" aria-label="Configuration and quick access panel">
+      <section class="sec-stack" aria-labelledby="apiTitle">
+        <div><p class="eyebrow">External connection</p><h2 id="apiTitle">Connect Python API</h2></div>
+        <label class="field-label" for="apiEndpoint">Copilot endpoint URL</label>
+        <input id="apiEndpoint" class="field" type="url" placeholder="http://localhost:8000/api/copilot/chat" aria-describedby="apiHelp" />
+        <button id="saveEndpoint" class="btn btn-primary btn-full">Connect endpoint</button>
+        <p id="apiHelp" class="field-help">Sends <code>question</code>, <code>telemetry</code> and <code>source</code> as POST JSON.</p>
+      </section>
+
+      <section class="sec-stack" aria-labelledby="fleetTitle">
+        <div class="sec-head sm"><h2 id="fleetTitle">Fleet</h2><span class="mini-badge acc">4 vessels</span></div>
+        <div class="pager" role="group" aria-label="Fleet pagination controls">
+          <button id="prevVessel" class="pager-btn" aria-label="Previous vessel">←</button>
+          <div class="pager-info"><strong id="fleetIndex">1 / 4</strong><span id="fleetType">Research / Training Vessel</span></div>
+          <button id="nextVessel" class="pager-btn" aria-label="Next vessel">→</button>
+        </div>
+      </section>
+
+      <section class="sec-stack" aria-labelledby="emergTitle">
+        <div class="sec-head sm"><h2 id="emergTitle">Quick emergencies</h2><span class="mini-badge err">shortcuts</span></div>
+        <div class="chip-grid" role="group" aria-label="Emergency quick questions">
+          <button class="action-chip" data-q="What should I do in a man overboard situation?">MOB</button>
+          <button class="action-chip" data-q="What should I do if there is a vessel fire on board?">Fire</button>
+          <button class="action-chip" data-q="What should I do if water is entering the hull?">Bilge</button>
+          <button class="action-chip" data-q="What should I do if I lose propulsion?">Propulsion</button>
+          <button class="action-chip" data-q="How do I broadcast a MAYDAY on VHF radio?">MAYDAY</button>
+        </div>
+      </section>
+
+      <section class="sec-stack" aria-labelledby="stackTitle">
+        <div class="sec-head sm"><h2 id="stackTitle">Free stack</h2><span class="mini-badge acc">free & open source</span></div>
+        <div id="freeStack" class="stack-list"></div>
+      </section>
+
+      <section class="sec-stack" aria-labelledby="checkTitle">
+        <div class="sec-head sm"><h2 id="checkTitle">AI Checklist</h2><span class="mini-badge ok">recommendations</span></div>
+        <ul id="checklist" class="checklist" aria-label="Maintenance and safety checklist"></ul>
+      </section>
+    </aside>
+
+    <section class="content" aria-label="Main dashboard content">
+      <article class="hero panel" aria-label="Vessel status summary">
+        <div class="hero-copy">
+          <p class="eyebrow">Telemetry · Diagnostics · Artificial Intelligence</p>
+          <h2>Operational panel for monitoring, safety and on-board decisions</h2>
+          <p class="lead">This interface consumes data from a Raspberry Pi with an NMEA 2000 gateway and Signal K, and renders a dark open-source map with fleet-aware port suggestions.</p>
+          <div class="badge-row"><span class="soft-badge">NMEA 2000</span><span class="soft-badge">Signal K</span><span class="soft-badge">Leaflet</span><span class="soft-badge">FastAPI ready</span><span class="soft-badge">Fleet mode</span></div>
+        </div>
+        <div class="hero-status surf-card" aria-label="Vessel general health">
+          <div class="ring-wrap" aria-label="Health index" role="img"><svg class="status-ring" viewBox="0 0 108 108" aria-hidden="true"><circle class="ring-track" cx="54" cy="54" r="48"></circle><circle class="ring-value" id="healthRing" cx="54" cy="54" r="48"></circle></svg><div class="ring-center"><strong id="healthScore">--</strong><span>Health</span></div></div>
+          <div class="vessel-meta"><div class="meta-row"><span>Vessel</span><strong id="vName">—</strong></div><div class="meta-row"><span>MMSI</span><strong id="vMmsi">—</strong></div><div class="meta-row"><span>Flag</span><strong id="vFlag">—</strong></div><div class="meta-row"><span>Updated</span><strong id="vTime">—</strong></div></div>
+        </div>
+      </article>
+
+      <section class="kpi-grid" aria-label="Real-time key indicators">
+        <article class="kpi panel"><div class="kpi-head"><span>Speed</span><span id="speedTrend" class="trend-badge flat">—</span></div><strong id="speedVal">—</strong><small>knots (SOG)</small><div id="speedSpark" class="sparkline"></div></article>
+        <article class="kpi panel"><div class="kpi-head"><span>Heading</span><span class="trend-badge flat">COG</span></div><strong id="headingVal">—</strong><small>degrees true</small><div id="headingSpark" class="sparkline"></div></article>
+        <article class="kpi panel"><div class="kpi-head"><span>Engine RPM</span><span id="rpmTrend" class="trend-badge flat">—</span></div><strong id="rpmVal">—</strong><small>revolutions per minute</small><div id="rpmSpark" class="sparkline"></div></article>
+        <article class="kpi panel"><div class="kpi-head"><span>House battery</span><span class="trend-badge flat">SOC</span></div><strong id="battVal">—</strong><small>volts · percentage</small><div id="battSpark" class="sparkline"></div></article>
+      </section>
+
+      <div class="two-col">
+        <article class="panel"><div class="sec-head"><h2>Navigation & Environment</h2><span class="mini-badge">snapshot</span></div><div id="navGrid" class="metric-grid"></div></article>
+        <article class="panel"><div class="sec-head"><h2>Propulsion & Power</h2><span class="mini-badge acc">engine PGNs</span></div><div id="engGrid" class="metric-grid"></div></article>
+      </div>
+
+      <div class="two-col map-row">
+        <article class="panel"><div class="sec-head"><h2>Alerts & Risk</h2><span class="mini-badge warn">priorities</span></div><div id="alertsList" class="alerts-list"></div></article>
+        <article class="panel map-panel"><div class="sec-head"><h2>Open-Source Port Map</h2><span class="mini-badge">leaflet</span></div><div id="map" class="leaflet-map" role="img" aria-label="Dark chart-style map with vessel, waypoint, and port markers"></div><div class="map-caption"><span><i class="ldot vessel"></i>Vessel</span><span><i class="ldot target"></i>Fuel port</span><span><i class="ldot waypoint"></i>Waypoint</span></div></article>
+      </div>
+
+      <div class="two-col bottom-grid">
+        <article class="panel chat-panel"><div class="sec-head"><h2>AI Copilot</h2><span class="mini-badge acc">AI</span></div><div class="prompt-bar"><button class="prompt-pill" data-q="Give me a summary of the vessel status.">Summary</button><button class="prompt-pill" data-q="How is the engine right now?">Engine</button><button class="prompt-pill" data-q="How is the power and battery?">Power</button><button class="prompt-pill" data-q="Which alerts need priority attention?">Alerts</button></div><div id="chatWindow" class="chat-window" role="log" aria-live="polite"></div><form id="chatForm" class="chat-form" novalidate><textarea id="chatInput" class="chat-input" rows="2" placeholder="Ask about vessel status, an emergency, maintenance, or nearby fuel ports..." aria-required="true"></textarea><button type="submit" class="btn btn-send" aria-label="Send message">➜</button></form><p class="field-help center" id="chatMode">Local mode active — no external endpoint configured.</p></article>
+        <article class="panel data-panel"><div class="sec-head"><h2>Technical Data</h2><span class="mini-badge">JSON / API</span></div><div class="tabs" role="tablist"><button class="tab active" role="tab" data-tab="telemetry" aria-selected="true">Telemetry</button><button class="tab" role="tab" data-tab="api" aria-selected="false">API</button><button class="tab" role="tab" data-tab="events" aria-selected="false">Events</button></div><div id="panel-telemetry" class="tab-panel active"><pre id="telemetryPre" class="code-block" tabindex="0"></pre></div><div id="panel-api" class="tab-panel"><pre id="apiPre" class="code-block" tabindex="0"></pre></div><div id="panel-events" class="tab-panel"><div id="eventTimeline" class="timeline"></div></div></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
 </body>
 </html>

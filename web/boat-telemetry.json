@@ -1,0 +1,166 @@
+{
+  "source": {
+    "standard": "NMEA 2000",
+    "gateway": "Raspberry Pi 4 + CAN HAT + Signal K Server v2",
+    "transport": "REST/JSON",
+    "note": "Simulation of real NMEA 2000 PGN data published via Signal K"
+  },
+  "timestamp": "2026-05-05T08:32:00-04:00",
+  "vessel": {
+    "name": "MV Harbor Guardian",
+    "type": "Research / Training Vessel",
+    "mmsi": "367589210",
+    "imo": "9876543",
+    "callSign": "WDM4218",
+    "flag": "USA",
+    "lengthM": 28.4,
+    "beamM": 7.1,
+    "draftM": 2.2
+  },
+  "navigation": {
+    "position": { "latitude": 42.3559, "longitude": -70.9779, "gnssQuality": "DGPS" },
+    "speedOverGroundKn": 12.8,
+    "speedThroughWaterKn": 11.9,
+    "headingTrueDeg": 84,
+    "headingMagneticDeg": 73,
+    "courseOverGroundDeg": 88,
+    "rateOfTurnDegMin": 1.7,
+    "depthBelowTransducerM": 14.6,
+    "depthBelowKeelM": 12.4,
+    "crossTrackErrorM": 3.8,
+    "distanceToWaypointNm": 5.6,
+    "eta": "2026-05-05T09:18:00-04:00"
+  },
+  "environment": {
+    "wind": {
+      "apparentAngleDeg": 32,
+      "apparentSpeedKn": 16.4,
+      "trueAngleDeg": 40,
+      "trueSpeedKn": 18.1
+    },
+    "water": { "temperatureC": 12.8, "salinityPsu": 31.2 },
+    "weather": {
+      "airTemperatureC": 17.6,
+      "pressureHpa": 1013.8,
+      "humidityPercent": 71,
+      "visibilityNm": 8.5
+    }
+  },
+  "propulsion": {
+    "engine1": {
+      "manufacturer": "Cummins",
+      "rpm": 1780,
+      "loadPercent": 62,
+      "coolantTempC": 91.4,
+      "oilPressureKpa": 344,
+      "oilTempC": 84.2,
+      "fuelRateLh": 41.7,
+      "alternatorPotentialV": 27.7,
+      "engineHours": 4821.4,
+      "status": "running"
+    },
+    "transmission": { "gear": "ahead", "oilPressureKpa": 1180, "oilTempC": 63.5 }
+  },
+  "energy": {
+    "batteries": {
+      "house": {
+        "voltage": 25.4,
+        "currentA": -12.8,
+        "temperatureC": 29.7,
+        "socPercent": 78,
+        "timeRemainingMin": 248
+      },
+      "starter": { "voltage": 26.2, "socPercent": 96 }
+    },
+    "charging": {
+      "alternatorVoltage": 27.7,
+      "shorePowerConnected": false,
+      "solarInputW": 420
+    }
+  },
+  "tanks": {
+    "fuel": { "main": { "capacityL": 1800, "levelPercent": 46, "remainingL": 828 } },
+    "freshWater": { "capacityL": 900, "levelPercent": 64 },
+    "blackWater": { "capacityL": 320, "levelPercent": 22 }
+  },
+  "safety": {
+    "bilge": { "pump1": "standby", "pump2": "standby", "waterLevel": "normal" },
+    "fireSystem": { "engineRoom": "armed", "detectors": "normal" },
+    "ais": { "targetsNearby": 6, "closestCpaNm": 1.2, "closestTcpaMin": 14 }
+  },
+  "signalk": {
+    "selfPath": "vessels.self",
+    "paths": {
+      "navigation.speedOverGround": 6.58,
+      "navigation.courseOverGroundTrue": 1.53,
+      "navigation.position": { "latitude": 42.3559, "longitude": -70.9779 },
+      "propulsion.mainEngine.revolutions": 29.67,
+      "electrical.batteries.house.voltage": 25.4,
+      "environment.wind.speedApparent": 8.43
+    },
+    "plugins": ["signalk-to-nmea2000", "signalk-derived-data", "signalk-ais-reporter"]
+  },
+  "history": {
+    "speedKn":        [11.6, 11.8, 12.0, 12.3, 12.5, 12.6, 12.8],
+    "headingDeg":     [76,   79,   81,   84,   86,   87,   88],
+    "rpm":            [1715, 1720, 1734, 1750, 1762, 1771, 1780],
+    "batteryVoltage": [25.1, 25.1, 25.2, 25.2, 25.3, 25.3, 25.4]
+  },
+  "analytics": {
+    "healthSummary": "Stable operation. Recommended attention to engine thermal trend and nearby AIS traffic.",
+    "maintenanceScore": 81,
+    "rangeEstimateNm": 252,
+    "fuelEfficiencyNmPerL": 0.305,
+    "anomalyScore": 0.22,
+    "checklist": [
+      "Validate engine temperature trend over the next 15 minutes.",
+      "Cross-check CPA/TCPA visually before the next course change.",
+      "Plan refueling stop — fuel below 50%.",
+      "Confirm bilge pumps and fire suppression status on next round."
+    ],
+    "alerts": [
+      {
+        "severity": "warning",
+        "title": "Elevated coolant temperature",
+        "description": "Above historical average for current RPM regime.",
+        "recommendation": "Inspect raw water intake, heat exchanger, and thermal trend."
+      },
+      {
+        "severity": "warning",
+        "title": "Fuel below 50%",
+        "description": "Sufficient range remaining, but plan next fueling window.",
+        "recommendation": "Cross remaining distance with weather and available fuel stops."
+      },
+      {
+        "severity": "danger",
+        "title": "Moderate AIS risk",
+        "description": "Target with CPA 1.2 NM and TCPA 14 min on current track.",
+        "recommendation": "Verify on ARPA/AIS, confirm visually, consider course or speed adjustment."
+      }
+    ]
+  },
+  "integrations": {
+    "freeStack": [
+      { "name": "Signal K",  "role": "Open-source maritime data server (NMEA 2000 gateway)" },
+      { "name": "OpenCPN",   "role": "Open-source navigation software" },
+      { "name": "Node-RED",  "role": "Flow-based automation and device connectors" },
+      { "name": "FastAPI",   "role": "Lightweight Python backend for the AI copilot" }
+    ]
+  },
+  "events": [
+    { "time": "08:02", "title": "Departure",              "description": "Navigation system synced with GNSS and Signal K gateway." },
+    { "time": "08:11", "title": "Gradual load increase",   "description": "Engine climbs to 1780 rpm to maintain target speed." },
+    { "time": "08:18", "title": "Thermal alert",           "description": "Coolant temperature above expected average." },
+    { "time": "08:26", "title": "Nearby AIS traffic",      "description": "Target detected with CPA 1.2 NM and TCPA 14 min." }
+  ],
+  "apiExamples": {
+    "telemetryEndpoint": "GET /api/v1/vessel/telemetry",
+    "chatEndpoint":      "POST /api/copilot/chat",
+    "chatPayload": {
+      "question":  "What should I check if engine temperature rises?",
+      "telemetry": "<full telemetry object>",
+      "source":    "vessel-dashboard-v6"
+    },
+    "chatResponse": { "answer": "Check raw water intake, filter, impeller and pressure trend." }
+  }
+}

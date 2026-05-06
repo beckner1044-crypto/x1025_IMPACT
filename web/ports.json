@@ -1,0 +1,10 @@
+{
+  "ports": [
+    {"id":"bos","name":"Port of Boston","latitude":42.3601,"longitude":-71.0287,"fuel":true,"dock":true,"water":true,"notes":"Primary commercial and service port."},
+    {"id":"qui","name":"Quincy Marina","latitude":42.2504,"longitude":-70.9967,"fuel":true,"dock":true,"water":true,"notes":"Fuel and mooring south of Boston Harbor."},
+    {"id":"sal","name":"Salem Harbor","latitude":42.5226,"longitude":-70.8831,"fuel":true,"dock":true,"water":true,"notes":"Regional harbor with fuel and basic services."},
+    {"id":"glo","name":"Gloucester Harbor","latitude":42.6159,"longitude":-70.6620,"fuel":true,"dock":true,"water":true,"notes":"Fishing and service harbor, good for refueling."},
+    {"id":"ply","name":"Plymouth Marina","latitude":41.9585,"longitude":-70.6673,"fuel":true,"dock":true,"water":true,"notes":"Southern fueling and stopover option."},
+    {"id":"pro","name":"Provincetown Harbor","latitude":42.0521,"longitude":-70.1840,"fuel":true,"dock":true,"water":true,"notes":"Outer Cape harbor with fuel and shelter."}
+  ]
+}

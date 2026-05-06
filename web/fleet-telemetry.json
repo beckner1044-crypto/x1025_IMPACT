@@ -1,0 +1,288 @@
+{
+  "fleet": [
+    {
+      "vessel": {
+        "name": "MV Harbor Guardian",
+        "mmsi": "123456789",
+        "flag": "US",
+        "type": "Research / Training Vessel"
+      },
+      "timestamp": "2026-05-05T18:30:00Z",
+      "navigation": {
+        "position": { "latitude": 42.36, "longitude": -71.0 },
+        "courseOverGroundDeg": 125.4,
+        "depthBelowTransducerM": 18.2,
+        "waypoint": { "latitude": 42.25, "longitude": -70.95 }
+      },
+      "environment": {
+        "wind": { "apparentSpeedKn": 12.4, "trueSpeedKn": 14.1 },
+        "water": { "temperatureC": 12.8 },
+        "weather": { "pressureHpa": 1016.2 }
+      },
+      "propulsion": {
+        "engine1": {
+          "rpm": 1850,
+          "loadPercent": 62,
+          "coolantTempC": 84.3,
+          "oilPressureKpa": 320
+        }
+      },
+      "energy": {
+        "batteries": { "house": { "voltage": 13.2, "socPercent": 78 } },
+        "charging": { "alternatorVoltage": 14.1 }
+      },
+      "tanks": { "fuel": { "main": { "levelPercent": 64 } } },
+      "history": {
+        "speedKn": [6.2, 6.5, 6.8, 7.0, 7.1, 7.0, 6.9, 7.2],
+        "headingDeg": [118, 120, 122, 124, 125, 126, 126, 125],
+        "rpm": [1700, 1750, 1800, 1850, 1870, 1860, 1855, 1850],
+        "batteryVoltage": [13.0, 13.1, 13.2, 13.2, 13.2, 13.2, 13.2, 13.2]
+      },
+      "analytics": {
+        "maintenanceScore": 86,
+        "rangeEstimateNm": 120,
+        "anomalyScore": 0.18,
+        "alerts": [
+          {
+            "title": "Engine coolant trending warm",
+            "severity": "warning",
+            "description": "Engine coolant temperature has been slowly increasing over the last 20 minutes.",
+            "recommendation": "Check raw water intake and confirm sea strainer is clear. Reduce RPM if trend continues."
+          }
+        ],
+        "checklist": [
+          "Verify engine room bilge is dry and ventilated.",
+          "Confirm all crew know where lifejackets and fire extinguishers are stored.",
+          "Log engine hours and coolant temperature every hour."
+        ]
+      },
+      "integrations": {
+        "freeStack": [
+          { "name": "Signal K", "role": "Open NMEA 2000 data server" },
+          { "name": "Leaflet", "role": "Open-source web mapping" },
+          { "name": "FastAPI", "role": "Python backend for AI copilot" },
+          { "name": "PostgreSQL", "role": "Time-series telemetry" }
+        ]
+      },
+      "apiExamples": {
+        "chatEndpoint": "http://localhost:8000/api/copilot/chat"
+      },
+      "events": [
+        {
+          "time": "18:04",
+          "title": "Departure from UMass Boston dock",
+          "description": "Vessel departed for training run with students on board."
+        },
+        {
+          "time": "18:20",
+          "title": "Engine checks complete",
+          "description": "Engine oil pressure and coolant temperature within nominal range."
+        }
+      ]
+    },
+    {
+      "vessel": {
+        "name": "RV Atlantic Scout",
+        "mmsi": "987654321",
+        "flag": "US",
+        "type": "Survey Vessel"
+      },
+      "timestamp": "2026-05-05T18:35:00Z",
+      "navigation": {
+        "position": { "latitude": 42.45, "longitude": -70.95 },
+        "courseOverGroundDeg": 200.0,
+        "depthBelowTransducerM": 35.0,
+        "waypoint": { "latitude": 42.30, "longitude": -70.80 }
+      },
+      "environment": {
+        "wind": { "apparentSpeedKn": 8.0, "trueSpeedKn": 10.0 },
+        "water": { "temperatureC": 11.5 },
+        "weather": { "pressureHpa": 1015.5 }
+      },
+      "propulsion": {
+        "engine1": {
+          "rpm": 1600,
+          "loadPercent": 55,
+          "coolantTempC": 80.0,
+          "oilPressureKpa": 300
+        }
+      },
+      "energy": {
+        "batteries": { "house": { "voltage": 13.0, "socPercent": 82 } },
+        "charging": { "alternatorVoltage": 14.0 }
+      },
+      "tanks": { "fuel": { "main": { "levelPercent": 72 } } },
+      "history": {
+        "speedKn": [5.5, 5.7, 5.8, 5.9, 6.0, 5.9, 5.8, 5.9],
+        "headingDeg": [198, 199, 200, 201, 200, 200, 200, 200],
+        "rpm": [1500, 1520, 1550, 1580, 1600, 1600, 1600, 1600],
+        "batteryVoltage": [12.9, 13.0, 13.0, 13.0, 13.0, 13.0, 13.0, 13.0]
+      },
+      "analytics": {
+        "maintenanceScore": 90,
+        "rangeEstimateNm": 180,
+        "anomalyScore": 0.12,
+        "alerts": [],
+        "checklist": [
+          "Confirm multibeam sonar logs are being recorded.",
+          "Check generator load is within recommended band.",
+          "Verify survey computers are on UPS power."
+        ]
+      },
+      "integrations": {
+        "freeStack": [
+          { "name": "GDAL", "role": "Geospatial data processing" },
+          { "name": "PostgreSQL/PostGIS", "role": "Spatial database" },
+          { "name": "Leaflet", "role": "Web mapping" },
+          { "name": "Python", "role": "Data science & AI" }
+        ]
+      },
+      "apiExamples": {
+        "chatEndpoint": "http://localhost:8000/api/copilot/chat"
+      },
+      "events": [
+        {
+          "time": "18:10",
+          "title": "Survey grid loaded",
+          "description": "Loaded bathymetry survey lines for harbor entrance."
+        }
+      ]
+    },
+    {
+      "vessel": {
+        "name": "FV Blue Current",
+        "mmsi": "555666777",
+        "flag": "US",
+        "type": "Fishing Vessel"
+      },
+      "timestamp": "2026-05-05T18:40:00Z",
+      "navigation": {
+        "position": { "latitude": 42.30, "longitude": -70.80 },
+        "courseOverGroundDeg": 150.0,
+        "depthBelowTransducerM": 40.0,
+        "waypoint": { "latitude": 42.10, "longitude": -70.70 }
+      },
+      "environment": {
+        "wind": { "apparentSpeedKn": 15.0, "trueSpeedKn": 18.0 },
+        "water": { "temperatureC": 10.9 },
+        "weather": { "pressureHpa": 1014.8 }
+      },
+      "propulsion": {
+        "engine1": {
+          "rpm": 1750,
+          "loadPercent": 68,
+          "coolantTempC": 85.5,
+          "oilPressureKpa": 330
+        }
+      },
+      "energy": {
+        "batteries": { "house": { "voltage": 12.9, "socPercent": 70 } },
+        "charging": { "alternatorVoltage": 14.1 }
+      },
+      "tanks": { "fuel": { "main": { "levelPercent": 58 } } },
+      "history": {
+        "speedKn": [6.0, 6.1, 6.3, 6.5, 6.4, 6.3, 6.2, 6.3],
+        "headingDeg": [148, 149, 150, 151, 150, 150, 150, 150],
+        "rpm": [1680, 1700, 1720, 1740, 1750, 1750, 1750, 1750],
+        "batteryVoltage": [12.8, 12.9, 12.9, 12.9, 12.9, 12.9, 12.9, 12.9]
+      },
+      "analytics": {
+        "maintenanceScore": 78,
+        "rangeEstimateNm": 140,
+        "anomalyScore": 0.25,
+        "alerts": [
+          {
+            "title": "High wind over the bow",
+            "severity": "warning",
+            "description": "True wind speed is above 18 kn while heavily loaded.",
+            "recommendation": "Reduce speed and monitor deck shipping water."
+          }
+        ],
+        "checklist": [
+          "Check fish hold temperature and drainage.",
+          "Confirm deck scuppers are clear.",
+          "Verify navigation lights are on and visible."
+        ]
+      },
+      "integrations": {
+        "freeStack": [
+          { "name": "Signal K", "role": "NMEA 2000 integration" },
+          { "name": "Grafana", "role": "Time-series dashboards" },
+          { "name": "Python", "role": "Catch prediction models" }
+        ]
+      },
+      "apiExamples": {
+        "chatEndpoint": "http://localhost:8000/api/copilot/chat"
+      },
+      "events": []
+    },
+    {
+      "vessel": {
+        "name": "USV Seaglass",
+        "mmsi": "888000111",
+        "flag": "US",
+        "type": "Autonomous Surface Vessel"
+      },
+      "timestamp": "2026-05-05T18:45:00Z",
+      "navigation": {
+        "position": { "latitude": 42.20, "longitude": -70.90 },
+        "courseOverGroundDeg": 45.0,
+        "depthBelowTransducerM": 20.0,
+        "waypoint": { "latitude": 42.30, "longitude": -70.85 }
+      },
+      "environment": {
+        "wind": { "apparentSpeedKn": 9.0, "trueSpeedKn": 11.0 },
+        "water": { "temperatureC": 11.2 },
+        "weather": { "pressureHpa": 1016.0 }
+      },
+      "propulsion": {
+        "engine1": {
+          "rpm": 1300,
+          "loadPercent": 40,
+          "coolantTempC": 75.0,
+          "oilPressureKpa": 280
+        }
+      },
+      "energy": {
+        "batteries": { "house": { "voltage": 52.0, "socPercent": 65 } },
+        "charging": { "alternatorVoltage": 0.0 }
+      },
+      "tanks": { "fuel": { "main": { "levelPercent": 40 } } },
+      "history": {
+        "speedKn": [4.2, 4.3, 4.5, 4.6, 4.7, 4.6, 4.5, 4.6],
+        "headingDeg": [44, 45, 45, 46, 45, 45, 45, 45],
+        "rpm": [1200, 1220, 1250, 1280, 1300, 1300, 1300, 1300],
+        "batteryVoltage": [52.1, 52.0, 52.0, 52.0, 51.9, 51.9, 51.8, 51.8]
+      },
+      "analytics": {
+        "maintenanceScore": 82,
+        "rangeEstimateNm": 90,
+        "anomalyScore": 0.22,
+        "alerts": [
+          {
+            "title": "House battery drifting down",
+            "severity": "warning",
+            "description": "Battery SOC is trending down during autonomous mission.",
+            "recommendation": "Plan a recovery or charging stop within the next 12 hours."
+          }
+        ],
+        "checklist": [
+          "Verify remote link and heartbeat are stable.",
+          "Check collision-avoidance sensors.",
+          "Confirm mission plan uploaded to USV controller."
+        ]
+      },
+      "integrations": {
+        "freeStack": [
+          { "name": "ROS", "role": "Robotics middleware" },
+          { "name": "FastAPI", "role": "Telemetry and control API" },
+          { "name": "Leaflet", "role": "Mission map" }
+        ]
+      },
+      "apiExamples": {
+        "chatEndpoint": "http://localhost:8000/api/copilot/chat"
+      },
+      "events": []
+    }
+  ]
+}
